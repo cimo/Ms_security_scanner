@@ -29,34 +29,28 @@ export default class SecurityScan {
             const execCommand = `${helperSrc.PATH_ROOT}${helperSrc.PATH_SCRIPT}command1.sh`;
             const execArgumentList = [execCommand, mode, target, uniqueId];
 
-            execFile("/bin/bash", execArgumentList, { encoding: "utf8" }, (error) => {
-                if (error) {
-                    helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileReadStream) => {
-                        if (Buffer.isBuffer(resultFileReadStream)) {
-                            helperSrc.responseBody(resultFileReadStream.toString("base64"), "", response, 200);
-                        } else {
-                            helperSrc.writeLog(
-                                `SecurityScan.ts - api() - post(/api/check) - execFile() - fileReadStream()`,
-                                resultFileReadStream.toString()
-                            );
+            execFile("/bin/bash", execArgumentList, { encoding: "utf8" }, () => {
+                helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileReadStream) => {
+                    if (Buffer.isBuffer(resultFileReadStream)) {
+                        helperSrc.responseBody(resultFileReadStream.toString("base64"), "", response, 200);
+                    } else {
+                        helperSrc.writeLog(
+                            `SecurityScan.ts - api() - post(/api/check) - execFile() - fileReadStream()`,
+                            resultFileReadStream.toString()
+                        );
 
-                            helperSrc.responseBody("", resultFileReadStream.toString(), response, 500);
+                        helperSrc.responseBody("", resultFileReadStream.toString(), response, 500);
+                    }
+                });
 
-                            return;
-                        }
-                    });
-
-                    helperSrc.fileOrFolderDelete(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileDelete) => {
-                        if (typeof resultFileDelete !== "boolean") {
-                            helperSrc.writeLog(
-                                `SecurityScan.ts - api() - post(/api/check) - execFile() - fileOrFolderDelete()`,
-                                resultFileDelete.toString()
-                            );
-
-                            helperSrc.responseBody("", resultFileDelete.toString(), response, 500);
-                        }
-                    });
-                }
+                helperSrc.fileOrFolderDelete(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileDelete) => {
+                    if (typeof resultFileDelete !== "boolean") {
+                        helperSrc.writeLog(
+                            `SecurityScan.ts - api() - post(/api/check) - execFile() - fileOrFolderDelete()`,
+                            resultFileDelete.toString()
+                        );
+                    }
+                });
             });
         });
     };
