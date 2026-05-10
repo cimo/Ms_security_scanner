@@ -1,0 +1,24 @@
+{
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "l13Diff.exclude": [
+        ".git",
+        ".cache",
+        ".config",
+        ".local",
+        ".npm",
+        ".pki",
+        "certificate",
+        "dist",
+        "file/input",
+        "log",
+        "node_modules",
+        "public/file",
+        "public/asset/js",
+        "public/asset/library",
+        "public/asset/style",
+        "package-lock.json"
+    ],
+    "l13Diff.ignoreEndOfLine": false,
+    "l13Diff.ignoreTrimWhitespace": "default",
+    "l13Diff.ignoreByteOrderMark": false
+}

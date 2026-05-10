@@ -1,0 +1,34 @@
+services:
+  cimo_ms_security_scan:
+    container_name: cimo-ms-security-scan
+    env_file:
+      - ./env/local.env
+      - ./env/local.secret.env
+    environment:
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      GALLIUM_DRIVER: "llvmpipe"
+      MESA_LOADER_DRIVER_OVERRIDE: "llvmpipe"
+    shm_size: "2gb"
+    build:
+      context: ./
+      dockerfile: ./docker/${DOCKERFILE}
+      args:
+        _ENV_NAME: ${ENV_NAME}
+        _DOMAIN: ${DOMAIN}
+        _TIME_ZONE: ${TIME_ZONE}
+        _LANG: ${LANG}
+        _SERVER_PORT: ${SERVER_PORT}
+        _PATH_ROOT: ${PATH_ROOT}
+        _PATH_CERTIFICATE_PEM: ${MS_SS_PATH_CERTIFICATE_PEM}
+    ports:
+      - 127.0.0.1:${SERVER_PORT}:${SERVER_PORT}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:${PATH_ROOT}
+      - ms_cronjob-volume:${PATH_ROOT}certificate/:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/wslg:/mnt/wslg
+      - /usr/lib/wsl/lib:/usr/lib/wsl/lib
+volumes:
+  ms_cronjob-volume:
