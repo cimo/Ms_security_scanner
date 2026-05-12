@@ -56,8 +56,8 @@ RUN cd ~ \
     && apt-get update && apt-get install -y \
     nodejs \
     # Trivy
-    && curl -fsSL "https://github.com/aquasecurity/trivy/releases/download/v0.70.0/trivy_0.70.0_Linux-64bit.deb" -o "/home/app/trivy_0.70.0_Linux-64bit.deb" \
-    && dpkg -i "/home/app/trivy_0.70.0_Linux-64bit.deb" \
+    && curl -fsSL https://github.com/aquasecurity/trivy/releases/download/v0.70.0/trivy_0.70.0_Linux-64bit.deb -o /home/app/trivy_0.70.0_Linux-64bit.deb \
+    && dpkg -i /home/app/trivy_0.70.0_Linux-64bit.deb \
     # Clean
     && apt-get remove --purge -y sudo \
     && rm -rf /var/lib/apt/lists/* \
