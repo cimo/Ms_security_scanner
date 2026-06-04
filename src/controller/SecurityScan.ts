@@ -28,16 +28,14 @@ export default class SecurityScan {
             const execCommand = `${helperSrc.PATH_ROOT}${helperSrc.PATH_SCRIPT}command1.sh`;
             const execArgumentList = [execCommand, mode, target, uniqueId];
 
-            helperSrc.executionFile(execArgumentList).then((result) => {
+            helperSrc.executionFile(execArgumentList).then(async (result) => {
                 if (result.error) {
                     helperSrc.writeLog(`SecurityScan.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
 
                     helperSrc.responseBody("", result.error.message, response, 500);
+                } else {
+                    const resultFileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
 
-                    return;
-                }
-
-                helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileReadStream) => {
                     if (Buffer.isBuffer(resultFileReadStream)) {
                         helperSrc.responseBody(resultFileReadStream.toString("base64"), "", response, 200);
                     } else {
@@ -48,16 +46,16 @@ export default class SecurityScan {
 
                         helperSrc.responseBody("", resultFileReadStream.toString(), response, 500);
                     }
-                });
+                }
 
-                helperSrc.fileOrFolderDelete(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`, (resultFileDelete) => {
-                    if (typeof resultFileDelete !== "boolean") {
-                        helperSrc.writeLog(
-                            `SecurityScan.ts - api() - post(/api/check) - executionFile() - fileOrFolderDelete()`,
-                            resultFileDelete.toString()
-                        );
-                    }
-                });
+                const fileOrFolderDelete = await helperSrc.fileOrFolderDelete(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
+
+                if (typeof fileOrFolderDelete !== "boolean") {
+                    helperSrc.writeLog(
+                        `SecurityScan.ts - api() - post(/api/check) - executionFile() - fileOrFolderDelete()`,
+                        fileOrFolderDelete.toString()
+                    );
+                }
             });
         });
     };
