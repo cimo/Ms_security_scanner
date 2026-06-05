@@ -32,7 +32,7 @@ export default class SecurityScan {
                 if (result.error) {
                     helperSrc.writeLog(`SecurityScan.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
 
-                    helperSrc.responseBody("", result.error.message, response, 500);
+                    helperSrc.responseBody("", "ko", response, 500);
                 } else {
                     const resultFileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
 
@@ -44,7 +44,7 @@ export default class SecurityScan {
                             resultFileReadStream.toString()
                         );
 
-                        helperSrc.responseBody("", resultFileReadStream.toString(), response, 500);
+                        helperSrc.responseBody("", "ko", response, 500);
                     }
                 }
 
