@@ -4,6 +4,7 @@ import { Ca } from "@cimo/authentication/dist/src/Main.js";
 
 // Source
 import * as helperSrc from "../HelperSrc.js";
+import * as modelSecurityScan from "../model/SecurityScan.js";
 
 export default class SecurityScan {
     // Variable
@@ -18,7 +19,7 @@ export default class SecurityScan {
 
     api = (): void => {
         this.app.post("/api/check", this.limiter, Ca.authenticationMiddleware, (request: Request, response: Response) => {
-            const body = request.body;
+            const body = request.body as modelSecurityScan.IapiCheckBody;
 
             const mode = body.mode;
             const target = body.target;
