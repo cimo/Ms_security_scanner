@@ -35,14 +35,14 @@ export default class SecurityScan {
 
                     helperSrc.responseBody("", "ko", response, 500);
                 } else {
-                    const resultFileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
+                    const fileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
 
-                    if (Buffer.isBuffer(resultFileReadStream)) {
-                        helperSrc.responseBody(resultFileReadStream.toString("base64"), "", response, 200);
+                    if (Buffer.isBuffer(fileReadStream)) {
+                        helperSrc.responseBody(fileReadStream.toString("base64"), "", response, 200);
                     } else {
                         helperSrc.writeLog(
                             `SecurityScan.ts - api() - post(/api/check) - executionFile() - fileReadStream()`,
-                            resultFileReadStream.toString()
+                            fileReadStream.toString()
                         );
 
                         helperSrc.responseBody("", "ko", response, 500);
