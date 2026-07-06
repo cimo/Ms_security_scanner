@@ -26,10 +26,10 @@ export default class SecurityScan {
 
             const uniqueId = helperSrc.generateUniqueId();
 
-            const execCommand = `${helperSrc.PATH_ROOT}${helperSrc.PATH_SCRIPT}command1.sh`;
-            const execArgumentList = [execCommand, mode, target, uniqueId];
+            const pathExecutionCommand = `${helperSrc.PATH_ROOT}${helperSrc.PATH_SCRIPT}command1.sh`;
+            const executionArgumentList = [pathExecutionCommand, mode, target, uniqueId];
 
-            helperSrc.executionFile(execArgumentList).then(async (result) => {
+            helperSrc.executionFile(executionArgumentList).then(async (result) => {
                 if (result.error) {
                     helperSrc.writeLog(`SecurityScan.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
 
