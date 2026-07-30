@@ -9,7 +9,7 @@
         ".pki",
         "certificate",
         "dist",
-        "file/input",
+        "file/output",
         "log",
         "node_modules",
         "public/file",
