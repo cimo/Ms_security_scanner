@@ -10,7 +10,7 @@ import { Ca } from "@cimo/authentication/dist/src/Main.js";
 // Source
 import * as helperSrc from "../HelperSrc.js";
 import * as modelServer from "../model/Server.js";
-import ControllerSecurityScan from "./SecurityScan.js";
+import ControllerVulnerability from "./Vulnerability.js";
 
 export default class Server {
     // Variable
@@ -86,16 +86,16 @@ export default class Server {
         const server = creation;
 
         server.listen(helperSrc.SERVER_PORT, () => {
-            const controllerSecurityScan = new ControllerSecurityScan(this.app, this.limiter);
-            controllerSecurityScan.api();
+            const controllerVulnerability = new ControllerVulnerability(this.app, this.limiter);
+            controllerVulnerability.api();
 
             helperSrc.writeLog("Server.ts - createServer() - listen() - Port", helperSrc.SERVER_PORT);
 
             this.app.get("/", this.limiter, Ca.authenticationMiddleware, (request: Request, response: Response) => {
-                if (request.accepts("html")) {
-                    response.sendFile(`${helperSrc.PATH_ROOT}${helperSrc.PATH_PUBLIC}index.html`);
-                } else {
+                if (!request.accepts("html")) {
                     response.status(404).send("/: html not found!");
+                } else {
+                    response.sendFile(`${helperSrc.PATH_ROOT}${helperSrc.PATH_PUBLIC}index.html`);
                 }
             });
 
