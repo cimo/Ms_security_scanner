@@ -4,9 +4,9 @@ import { Ca } from "@cimo/authentication/dist/src/Main.js";
 
 // Source
 import * as helperSrc from "../HelperSrc.js";
-import * as modelVulnerability from "../model/Vulnerability.js";
+import * as modelService from "../model/Service.js";
 
-export default class Vulnerability {
+export default class Service {
     // Variable
     private app: Express.Express;
     private limiter: RateLimitRequestHandler;
@@ -19,7 +19,7 @@ export default class Vulnerability {
 
     api = (): void => {
         this.app.post("/api/check", this.limiter, Ca.authenticationMiddleware, (request: Request, response: Response) => {
-            const body = request.body as modelVulnerability.IapiCheckBody;
+            const body = request.body as modelService.IapiCheckBody;
 
             const mode = body.mode;
             const target = body.target;
@@ -31,17 +31,14 @@ export default class Vulnerability {
 
             helperSrc.executionFile(executionArgumentList).then(async (result) => {
                 if (result.error) {
-                    helperSrc.writeLog(`Vulnerability.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
+                    helperSrc.writeLog(`Service.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
 
                     helperSrc.responseBody("", "ko", response, 500);
                 } else {
                     const fileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
 
                     if (!Buffer.isBuffer(fileReadStream)) {
-                        helperSrc.writeLog(
-                            `Vulnerability.ts - api() - post(/api/check) - executionFile() - fileReadStream()`,
-                            fileReadStream.toString()
-                        );
+                        helperSrc.writeLog(`Service.ts - api() - post(/api/check) - executionFile() - fileReadStream()`, fileReadStream.toString());
 
                         helperSrc.responseBody("", "ko", response, 500);
                     } else {
@@ -53,7 +50,7 @@ export default class Vulnerability {
 
                 if (typeof fileOrFolderDelete !== "boolean") {
                     helperSrc.writeLog(
-                        `Vulnerability.ts - api() - post(/api/check) - executionFile() - fileOrFolderDelete()`,
+                        `Service.ts - api() - post(/api/check) - executionFile() - fileOrFolderDelete()`,
                         fileOrFolderDelete.toString()
                     );
                 }

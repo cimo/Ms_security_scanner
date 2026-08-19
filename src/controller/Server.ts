@@ -10,7 +10,7 @@ import { Ca } from "@cimo/authentication/dist/src/Main.js";
 // Source
 import * as helperSrc from "../HelperSrc.js";
 import * as modelServer from "../model/Server.js";
-import ControllerVulnerability from "./Vulnerability.js";
+import ControllerService from "./Service.js";
 
 export default class Server {
     // Variable
@@ -86,8 +86,8 @@ export default class Server {
         const server = creation;
 
         server.listen(helperSrc.SERVER_PORT, () => {
-            const controllerVulnerability = new ControllerVulnerability(this.app, this.limiter);
-            controllerVulnerability.api();
+            const controllerService = new ControllerService(this.app, this.limiter);
+            controllerService.api();
 
             helperSrc.writeLog("Server.ts - createServer() - listen() - Port", helperSrc.SERVER_PORT);
 
