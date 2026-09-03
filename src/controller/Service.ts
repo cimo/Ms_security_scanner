@@ -33,16 +33,16 @@ export default class Service {
                 if (result.error) {
                     helperSrc.writeLog(`Service.ts - api() - post(/api/check) - executionFile() - error`, result.error.message);
 
-                    helperSrc.responseBody("", "ko", response, 500);
+                    helperSrc.responseBody({ state: "ko", message: result.error.message }, response, 500);
                 } else {
                     const fileReadStream = await helperSrc.fileReadStream(`${helperSrc.PATH_ROOT}${helperSrc.PATH_FILE}output/${uniqueId}.log`);
 
                     if (!Buffer.isBuffer(fileReadStream)) {
                         helperSrc.writeLog(`Service.ts - api() - post(/api/check) - executionFile() - fileReadStream()`, fileReadStream.toString());
 
-                        helperSrc.responseBody("", "ko", response, 500);
+                        helperSrc.responseBody({ state: "ko", message: fileReadStream.toString() }, response, 500);
                     } else {
-                        helperSrc.responseBody(fileReadStream.toString("base64"), "", response, 200);
+                        helperSrc.responseBody({ state: "ok", message: "", data: fileReadStream.toString("base64") }, response, 200);
                     }
                 }
 
