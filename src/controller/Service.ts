@@ -24,6 +24,15 @@ export default class Service {
             const mode = body.mode;
             const target = body.target;
 
+            const isTargetImage = mode === "image" && typeof target === "string" && /^[a-z0-9][a-z0-9._/:@-]*$/.test(target);
+            const isTargetRepository = mode === "repository" && typeof target === "string" && /^https:\/\/\S+$/.test(target);
+
+            if (!isTargetImage && !isTargetRepository) {
+                helperSrc.responseBody({ state: "ko", message: "Invalid parameter." }, response, 200);
+
+                return;
+            }
+
             const uniqueId = helperSrc.generateUniqueId();
 
             const pathExecutionCommand = `${helperSrc.PATH_ROOT}${helperSrc.PATH_SCRIPT}command1.sh`;
