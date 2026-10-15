@@ -1,6 +1,6 @@
 services:
-  cimo_ms_security_scan:
-    container_name: cimo-ms-security-scan
+  cimo_ms_security_scanner:
+    container_name: cimo-ms-security-scanner
     env_file:
       - ./env/local.env
       - ./env/local.secret.env

@@ -1,5 +1,5 @@
-# Ms_security_scan
-Microservice security scan.
+# Ms_security_scanner
+Microservice security scanner.
 
 Depend on "Ms_cronjob" (use "ms_cronjob-volume" to share the certificate).
 

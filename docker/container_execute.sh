@@ -37,5 +37,5 @@ fi
 
 if [ "${parameter2}" = "build-up" ] || [ "${parameter2}" = "up" ]
 then
-    docker compose -f "docker-compose.yaml" --env-file "./env/${parameter1}.env" --env-file "./env/${parameter1}.secret.env" exec -u root -T "${projectName}_ms_security_scan" update-ca-certificates
+    docker compose -f "docker-compose.yaml" --env-file "./env/${parameter1}.env" --env-file "./env/${parameter1}.secret.env" exec -u root -T "${projectName}_ms_security_scanner" update-ca-certificates
 fi

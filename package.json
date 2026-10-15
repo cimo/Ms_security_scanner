@@ -1,12 +1,12 @@
 {
-    "name": "ms_security_scan",
+    "name": "ms_security_scanner",
     "version": "1.0.0",
-    "description": "Microservice security scan.",
+    "description": "Microservice security scanner.",
     "author": "cimo",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/cimo/Ms_security_scan.git"
+        "url": "git+https://github.com/cimo/Ms_security_scanner.git"
     },
     "type": "module",
     "scripts": {
